@@ -56,7 +56,7 @@ export const Alert = createReactBlockSpec(
       const Icon = alertType.icon;
 
       return (
-        <ShadcnAlert className={clsx("flex items-center gap-2 border my-2 font-medium", {
+        <ShadcnAlert className={clsx("flex items-center gap-2 border font-medium", {
           "bg-red-600 text-white": alertType.variant === "destructive",
           "bg-black/10 dark:bg-white/10": alertType.variant === "default", 
         })}>

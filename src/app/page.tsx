@@ -4,7 +4,7 @@ import { Layouts } from "@/components/layouts";
 import dynamic from "next/dynamic";
 
 const BlockNoteEditor = dynamic(() =>
-  import("@/features/block-note/block-note-editor").then(mod => mod.BlockNoteEditor),
+  import("@/components/features/block-note/block-note-editor").then(mod => mod.BlockNoteEditor),
   { ssr: false }
 );
 

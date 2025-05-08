@@ -6,7 +6,7 @@ import { BlockNoteView } from "@blocknote/shadcn";
 import "@blocknote/shadcn/style.css";
 import { useState, useEffect } from "react";
 import { RemoveBlockButton } from "./custom/menu-item/remove-block-button";
-import { editorSchema, insertAlert } from "./custom/blocks/block-insertion";
+import { editorSchema, insertAgent, insertAlert } from "./custom/blocks/block-insertion";
 import { useTheme } from "next-themes";
 import { AlertCircle } from "lucide-react";
 import { filterSuggestionItems } from "@blocknote/core";
@@ -21,6 +21,8 @@ const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange
   });
 
   const onChange = async () => {
+    console.log("onChange", editor.document);
+
     const markdown = await editor.blocksToMarkdownLossy(editor.document);
     handleOnChange(markdown);
   };
@@ -32,7 +34,7 @@ const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange
 
   useEffect(() => {
     setInitialContent()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -49,7 +51,7 @@ const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange
         sideMenu={(props) => (
           <SideMenu {...props}>
             <RemoveBlockButton {...props} />
-            <AddBlockButton {...props}/>
+            <AddBlockButton {...props} />
             <DragHandleButton {...props} />
           </SideMenu>
         )}
@@ -69,19 +71,27 @@ const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange
           />
         )}
       />
-      
+
       <SuggestionMenuController
         triggerCharacter={"/"}
         getItems={async (query) => {
           const defaultItems = getDefaultReactSlashMenuItems(editor);
-          
+
           const lastBasicBlockIndex = defaultItems.findLastIndex(
             (item) => item.group === "Basic blocks"
           );
-          
+
           defaultItems.splice(lastBasicBlockIndex + 1, 0, insertAlert(editor));
- 
+
           return filterSuggestionItems(defaultItems, query);
+        }}
+      />
+
+      <SuggestionMenuController
+        triggerCharacter={"@"}
+        getItems={async (query) => {
+          const items = [insertAgent(editor)];
+          return filterSuggestionItems(items, query);
         }}
       />
     </BlockNoteView>
