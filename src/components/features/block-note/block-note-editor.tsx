@@ -1,23 +1,46 @@
-"use client"
+"use client";
 
 import "@blocknote/core/fonts/inter.css";
-import { AddBlockButton, BlockTypeSelectItem, blockTypeSelectItems, DragHandleButton, FormattingToolbar, FormattingToolbarController, getDefaultReactSlashMenuItems, SideMenu, SideMenuController, SuggestionMenuController, useCreateBlockNote } from "@blocknote/react";
+import {
+  AddBlockButton,
+  BlockTypeSelectItem,
+  blockTypeSelectItems,
+  DragHandleButton,
+  FormattingToolbar,
+  FormattingToolbarController,
+  getDefaultReactSlashMenuItems,
+  SideMenu,
+  SideMenuController,
+  SuggestionMenuController,
+  useCreateBlockNote,
+} from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/shadcn";
 import "@blocknote/shadcn/style.css";
 import { useState, useEffect } from "react";
 import { RemoveBlockButton } from "./custom/menu-item/remove-block-button";
-import { editorSchema, insertAgent, insertAlert } from "./custom/blocks/block-insertion";
+import {
+  editorSchema,
+  insertAgent,
+  insertAlert,
+} from "./custom/blocks/block-insertion";
 import { useTheme } from "next-themes";
 import { AlertCircle } from "lucide-react";
 import { filterSuggestionItems } from "@blocknote/core";
+import { insertActionList } from "./custom/blocks/action-list";
 
 const isWindow = typeof window !== "undefined";
 
-const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange: (value: string) => void }) => {
+const Editor = ({
+  contents,
+  handleOnChange,
+}: {
+  contents: string;
+  handleOnChange: (value: string) => void;
+}) => {
   const { theme, systemTheme } = useTheme();
 
   const editor = useCreateBlockNote({
-    schema: editorSchema
+    schema: editorSchema,
   });
 
   const onChange = async () => {
@@ -29,23 +52,24 @@ const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange
 
   const setInitialContent = async () => {
     const initialDocument = await editor.tryParseMarkdownToBlocks(contents);
-    editor.replaceBlocks(editor.document, initialDocument)
-  }
+    editor.replaceBlocks(editor.document, initialDocument);
+  };
 
   useEffect(() => {
-    setInitialContent()
+    setInitialContent();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <BlockNoteView
       editor={editor}
-      shadCNComponents={{
-      }}
+      shadCNComponents={{}}
       onChange={onChange}
       sideMenu={false}
       formattingToolbar={false}
-      theme={theme === "system" ? systemTheme : theme === "dark" ? "dark" : "light"}
+      theme={
+        theme === "system" ? systemTheme : theme === "dark" ? "dark" : "light"
+      }
     >
       <SideMenuController
         sideMenu={(props) => (
@@ -81,7 +105,12 @@ const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange
             (item) => item.group === "Basic blocks"
           );
 
-          defaultItems.splice(lastBasicBlockIndex + 1, 0, insertAlert(editor));
+          defaultItems.splice(
+            lastBasicBlockIndex + 1,
+            0,
+            insertAlert(editor),
+            insertActionList(editor)
+          );
 
           return filterSuggestionItems(defaultItems, query);
         }}
@@ -96,17 +125,24 @@ const Editor = ({ contents, handleOnChange }: { contents: string, handleOnChange
       />
     </BlockNoteView>
   );
-}
+};
 
-export const BlockNoteEditor = ({ contents, handleOnChange }: { contents: string, handleOnChange: (value: string) => void }) => {
+export const BlockNoteEditor = ({
+  contents,
+  handleOnChange,
+}: {
+  contents: string;
+  handleOnChange: (value: string) => void;
+}) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     if (isWindow) {
       setIsClient(true);
     }
-  }, [])
+  }, []);
 
-  return isClient ? <Editor contents={contents} handleOnChange={handleOnChange} /> : null
-}
-
+  return isClient ? (
+    <Editor contents={contents} handleOnChange={handleOnChange} />
+  ) : null;
+};
