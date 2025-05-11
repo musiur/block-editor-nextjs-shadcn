@@ -63,7 +63,7 @@ export const ActionList = () => {
                   <CardHeader className="space-y-4">
                     <div className="space-y-1">
                       <p className="text-xs text-slate-700 dark:text-slate-300">
-                        Generated at {action.createdAt} by ${action.createdBy}
+                        Generated at {action.createdAt} by {action.createdBy}
                       </p>
                       <p className="font-semibold">{action.title}</p>
                     </div>
@@ -108,7 +108,7 @@ export const ActionItem = ({ data }: { data: any }) => {
           <CardHeader className="space-y-4">
             <div className="space-y-1">
               <p className="text-xs text-slate-700 dark:text-slate-300">
-                Generated at ${} by @Rayquaza
+                Generated at {data.createdAt} by @{data.createdBy}
                 <Badge variant="destructive" className="ml-2">
                   Urgent
                 </Badge>

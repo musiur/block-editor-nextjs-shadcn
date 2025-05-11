@@ -2,6 +2,7 @@
 
 import { Layouts } from "@/components/layouts";
 import dynamic from "next/dynamic";
+import { ActionList } from "./action-list";
 
 const BlockNoteEditor = dynamic(
   () =>
@@ -19,6 +20,9 @@ const Home = () => {
           contents={InitialMarkdown}
           handleOnChange={(value: string) => console.log(value)}
         />
+      </div>
+      <div className="max-w-4xl mx-auto p-10 border border-border rounded-xl bg-slate-50 dark:bg-slate-900 mt-10">
+        <ActionList />
       </div>
     </Layouts.Section>
   );

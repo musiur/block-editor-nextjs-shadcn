@@ -7,13 +7,14 @@ import { Alert } from "./alert";
 import { AlertCircle, Bot } from "lucide-react";
 import { Agent } from "./agent";
 import { ActionList } from "./action-list";
+import { ActionItem } from "./action-item";
 
 export const editorSchema = BlockNoteSchema.create({
   blockSpecs: {
     ...defaultBlockSpecs,
     alert: Alert,
     agent: Agent,
-    // actionItem: ActionItem,
+    actionItem: ActionItem,
     actionList: ActionList,
   },
 });

@@ -25,8 +25,10 @@ import {
 } from "./custom/blocks/block-insertion";
 import { useTheme } from "next-themes";
 import { AlertCircle } from "lucide-react";
-import { filterSuggestionItems } from "@blocknote/core";
+import { BlockNoteSchema, filterSuggestionItems } from "@blocknote/core";
 import { insertActionList } from "./custom/blocks/action-list";
+import { codeBlock } from "@blocknote/code-block";
+import { insertActionItem } from "./custom/blocks/action-item";
 
 const isWindow = typeof window !== "undefined";
 
@@ -41,6 +43,7 @@ const Editor = ({
 
   const editor = useCreateBlockNote({
     schema: editorSchema,
+    codeBlock,
   });
 
   const onChange = async () => {
@@ -51,7 +54,69 @@ const Editor = ({
   };
 
   const setInitialContent = async () => {
-    const initialDocument = await editor.tryParseMarkdownToBlocks(contents);
+    // const initialDocument = await editor.tryParseMarkdownToBlocks(contents);
+    // console.log("initialDocument", initialDocument);
+    const initialDocument: any = [
+      {
+        id: "b62da582-6ca9-4690-8947-162e77f0e2f3",
+        type: "actionList",
+        props: {
+          id: "b62da582-6ca9-4690-8947-162e77f0e2f3",
+          textColor: "default",
+          textAlignment: "left",
+          title: "New Action List",
+          createdAt: "5/12/2025, 12:30:36 AM",
+          createdBy: "@User",
+          parent: true,
+        },
+        content: [
+          {
+            type: "text",
+            text: "Learning graph database query patterns for the ML team, focusing on Apache Graph database.",
+            styles: {},
+          },
+        ],
+        children: [
+          {
+            id: "fa034ece-4e05-46e6-ad24-4da7944cb862",
+            type: "paragraph",
+            props: {
+              textColor: "default",
+              backgroundColor: "default",
+              textAlignment: "left",
+              parent: false,
+            },
+            content: [
+              {
+                type: "text",
+                text: "Action Item 1",
+                styles: {},
+              },
+            ],
+            children: [],
+          },
+          {
+            id: "79552e8c-7dae-44e4-af03-7ed97809f7a4",
+            type: "paragraph",
+            props: {
+              textColor: "default",
+              backgroundColor: "default",
+              textAlignment: "left",
+              parent: false,
+            },
+            content: [
+              {
+                type: "text",
+                text: "Action Item 2",
+                styles: {},
+              },
+            ],
+            children: [],
+          },
+        ],
+      },
+    ];
+
     editor.replaceBlocks(editor.document, initialDocument);
   };
 
@@ -109,7 +174,8 @@ const Editor = ({
             lastBasicBlockIndex + 1,
             0,
             insertAlert(editor),
-            insertActionList(editor)
+            insertActionList(editor),
+            insertActionItem(editor)
           );
 
           return filterSuggestionItems(defaultItems, query);
