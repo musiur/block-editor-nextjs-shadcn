@@ -79,7 +79,7 @@ const Editor = ({
         children: [
           {
             id: "fa034ece-4e05-46e6-ad24-4da7944cb862",
-            type: "paragraph",
+            type: "actionItem",
             props: {
               textColor: "default",
               backgroundColor: "default",
@@ -97,7 +97,7 @@ const Editor = ({
           },
           {
             id: "79552e8c-7dae-44e4-af03-7ed97809f7a4",
-            type: "paragraph",
+            type: "actionItem",
             props: {
               textColor: "default",
               backgroundColor: "default",
